@@ -1,0 +1,131 @@
+.quizContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.logo {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.quizContent {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  padding-top: 20px;
+  flex-direction: row;
+}
+
+.quizSidebar {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  margin-right: 20px;
+}
+
+.sidebarButton {
+  margin: 5px 0;
+  padding: 10px 5px;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  display: block;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+.sidebarButton.answered {
+  background-color: #007bff;
+  color: white;
+}
+
+.quizQuestions {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.quizQuestionContainer {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #ffffff;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quizQuestion {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.quizQuestionText {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.quizChoices {
+  display: flex;
+  flex-direction: column;
+}
+
+.quizChoice {
+  margin: 10px 0;
+  padding: 10px 15px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.quizChoice:hover {
+  background-color: #e0e0e0;
+}
+
+.quizChoice.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.quizNavigation {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.finishButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.finishButton:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.savedStatus {
+  font-size: 0.9rem;
+  color: #555;
+}

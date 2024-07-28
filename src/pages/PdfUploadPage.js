@@ -1,3 +1,5 @@
+// src/pages/PdfUploadPage.js
+
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../contexts/AppContext";
@@ -8,8 +10,7 @@ import uploadIcon from "../assets/upload.svg";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function PdfUploadPage() {
-  const { setSelectedFile, setExtractedText, selectedFile, extractedText } =
-    useContext(AppContext);
+  const { setSelectedFile, setExtractedText, selectedFile, extractedText } = useContext(AppContext);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const navigate = useNavigate();
@@ -24,15 +25,13 @@ function PdfUploadPage() {
         try {
           const pdf = await pdfjs.getDocument(e.target.result).promise;
           const totalPages = pdf.numPages;
-          let extractedText = "";
+          let extractedTextArray = [];
           for (let i = 1; i <= totalPages; i++) {
             const page = await pdf.getPage(i);
             const textContent = await page.getTextContent();
-            extractedText += textContent.items
-              .map((item) => item.str)
-              .join(" ");
+            extractedTextArray.push(...textContent.items.map((item) => item.str));
           }
-          setExtractedText(extractedText);
+          setExtractedText(extractedTextArray);
           setNumPages(totalPages); // Set the numPages here
         } catch (error) {
           console.error("Error parsing PDF:", error);
@@ -52,7 +51,7 @@ function PdfUploadPage() {
 
   return (
     <div className="pdf-upload-page">
-      <h1 className="logo">studybuddy</h1>
+      <h1 className="logo">Sprout</h1>
       {/* Use an image and label for the file input */}
       {!numPages && (
         <div className="upload-container">

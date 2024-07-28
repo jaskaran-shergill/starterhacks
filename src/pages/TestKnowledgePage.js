@@ -4,16 +4,14 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import { OpenAI } from 'openai';
 import axios from 'axios';
 import "./TestKnowledgePage.css";
-
 import recording from '../assets/recording.svg';
 import stopRecord from '../assets/paused.svg';
 import { useNavigate } from 'react-router-dom';
 
-
 function TestKnowledgePage() {
   const navigate = useNavigate();
   const {
-    extractedText,
+    extractedTexts,
     generatedQuestions,
     setGeneratedQuestions,
     currentQuestionIndex,
@@ -29,21 +27,21 @@ function TestKnowledgePage() {
   } = useContext(AppContext);
 
   const recorder = useRef(null);
-  const openaiApiKey = '';
-  const googleApiKey = '';
 
   useEffect(() => {
     recorder.current = new MicRecorder({ bitRate: 128 });
   }, []);
 
   const handleGenerateQuestions = async () => {
-    if (!extractedText || !openaiApiKey) return;
+    if (!extractedTexts.length || !process.env.REACT_APP_OPENAI_API_KEY) return;
     setLoading(true);
 
     const openai = new OpenAI({
-      apiKey: openaiApiKey,
+      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
       dangerouslyAllowBrowser: true
     });
+
+    const concatenatedText = extractedTexts.join("\n");
 
     try {
       const completion = await openai.chat.completions.create({
@@ -52,7 +50,7 @@ function TestKnowledgePage() {
           { role: "system", content: "You are a helpful assistant." },
           {
             role: "user",
-            content: `Generate 5 relevant questions based on the context below:\n\nContext:\n${extractedText}\n\nQuestions:`,
+            content: `Generate 5 relevant questions based on the context below:\n\nContext:\n${concatenatedText}\n\nQuestions:`,
           },
         ],
       });
@@ -94,7 +92,7 @@ function TestKnowledgePage() {
 
         try {
           const response = await axios.post(
-            `https://speech.googleapis.com/v1/speech:recognize?key=${googleApiKey}`,
+            `https://speech.googleapis.com/v1/speech:recognize?key=${process.env.REACT_APP_GOOGLE_API_KEY}`,
             {
               audio: { content: base64Audio },
               config: {
@@ -130,14 +128,15 @@ function TestKnowledgePage() {
   }
 
   const handleGradeResponse = async (transcription) => {
-    if (!transcription || !openaiApiKey) return;
+    if (!transcription || !process.env.REACT_APP_OPENAI_API_KEY) return;
     setLoading(true);
 
     const openai = new OpenAI({
-      apiKey: openaiApiKey,
+      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
       dangerouslyAllowBrowser: true
     });
 
+    const concatenatedText = extractedTexts.join("\n");
     const currentQuestion = generatedQuestions[currentQuestionIndex];
 
     try {
@@ -150,7 +149,7 @@ function TestKnowledgePage() {
             content: `Grade and provide feedback on the following response to a question, based on the context. 
         Give it a grading of the answer based on the context. Be kind on the marking, don't be harsh. Concise is good, detailed is also good. Give it a grade out of 100 and provide a brief explanation of the grade.
 
-        Context:\n${extractedText}\n
+        Context:\n${concatenatedText}\n
         Question: ${currentQuestion}\n
         Response: ${transcription}\n\n
         Grade:`,
@@ -185,7 +184,7 @@ function TestKnowledgePage() {
     if (generatedQuestions.length === 0) {
       handleGenerateQuestions();
     }
-  }, [extractedText]);
+  }, [extractedTexts]);
 
   if (loading) {
     return <div>Loading, please wait...</div>;
@@ -194,7 +193,7 @@ function TestKnowledgePage() {
   return (
     <div className='testContainer'>
       <div className='leftContainer'>
-      <h1 className="logo" onClick={() => navigate('/choice')}>studybuddy</h1>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
       <h1 className='testTitle'>Test Your Knowledge</h1>
       <h5 className='testSubtitle'>record yourself answering these questions and receive feedback</h5>
       {generatedQuestions.length > 0 && (
@@ -217,15 +216,14 @@ function TestKnowledgePage() {
       </div>
       <div className='rightContainer'>
       {isRecording ? (
-  <button onClick={stopRecording} disabled={!isRecording}>
-    <img src={recording} alt="Stop Recording" />
-  </button>
-) : (
-  <button onClick={startRecording} disabled={isRecording}>
-    <img src={stopRecord} alt="Start Recording" />
-  </button>
-)}
-
+        <button onClick={stopRecording} disabled={!isRecording}>
+          <img src={recording} alt="Stop Recording" />
+        </button>
+      ) : (
+        <button onClick={startRecording} disabled={isRecording}>
+          <img src={stopRecord} alt="Start Recording" />
+        </button>
+      )}
       </div>
     </div>
   );
