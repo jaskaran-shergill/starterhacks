@@ -24,7 +24,8 @@ function TestKnowledgePage() {
     setFeedback,
     loading,
     setLoading,
-    educationLevel
+    educationLevel,
+    gradeLevel
   } = useContext(AppContext);
 
   const recorder = useRef(null);
@@ -49,7 +50,7 @@ function TestKnowledgePage() {
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "You are a helpful assistant." },
-          { role: "system", content: `The user is in ${educationLevel} level.` },
+          { role: "system", content: `The user is in ${educationLevel} level and grade ${gradeLevel}.` },
           {
             role: "user",
             content: `Generate 5 relevant questions based on the context below:\n\nContext:\n${concatenatedText}\n\nQuestions:`,
@@ -146,16 +147,16 @@ function TestKnowledgePage() {
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "You are a grader, you provide grading on the answer you're provided based on the context given and to the question given." },
-          { role: "system", content: `The user is in ${educationLevel} level.` },
+          { role: "system", content: `The user is in ${educationLevel} level and grade ${gradeLevel}.` },
           {
             role: "user",
             content: `Grade and provide feedback on the following response to a question, based on the context. 
-            Give it a grading of the answer based on the context. Be kind on the marking, don't be harsh. Concise is good, detailed is also good. Give it a grade out of 100 and provide a brief explanation of the grade.
+        Give it a grading of the answer based on the context. Be kind on the marking, don't be harsh. Concise is good, detailed is also good. Give it a grade out of 100 and provide a brief explanation of the grade.
 
-            Context:\n${concatenatedText}\n
-            Question: ${currentQuestion}\n
-            Response: ${transcription}\n\n
-            Grade:`,
+        Context:\n${concatenatedText}\n
+        Question: ${currentQuestion}\n
+        Response: ${transcription}\n\n
+        Grade:`,
           },
         ],
       });
@@ -196,37 +197,37 @@ function TestKnowledgePage() {
   return (
     <div className='testContainer'>
       <div className='leftContainer'>
-        <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
-        <h1 className='testTitle'>Test Your Knowledge</h1>
-        <h5 className='testSubtitle'>record yourself answering these questions and receive feedback</h5>
-        {generatedQuestions.length > 0 && (
-          <div>
-            <p className='question'>{generatedQuestions[currentQuestionIndex]}</p>
-            {feedback && (
-              <div>
-                <h4>Feedback:</h4>
-                <p>{feedback}</p>
-              </div>
-            )}
-            <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0 || isRecording || loading}>
-              Previous Question
-            </button>
-            <button onClick={handleNextQuestion} disabled={currentQuestionIndex >= generatedQuestions.length - 1 || isRecording || loading}>
-              Next Question
-            </button>
-          </div>
-        )}
+      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className='testTitle'>Test Your Knowledge</h1>
+      <h5 className='testSubtitle'>record yourself answering these questions and receive feedback</h5>
+      {generatedQuestions.length > 0 && (
+        <div>
+          <p className='question'>{generatedQuestions[currentQuestionIndex]}</p>
+          {feedback && (
+            <div>
+              <h4>Feedback:</h4>
+              <p>{feedback}</p>
+            </div>
+          )}
+          <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0 || isRecording || loading}>
+            Previous Question
+          </button>
+          <button onClick={handleNextQuestion} disabled={currentQuestionIndex >= generatedQuestions.length - 1 || isRecording || loading}>
+            Next Question
+          </button>
+        </div>
+      )}
       </div>
       <div className='rightContainer'>
-        {isRecording ? (
-          <button onClick={stopRecording} disabled={!isRecording}>
-            <img src={recording} alt="Stop Recording" />
-          </button>
-        ) : (
-          <button onClick={startRecording} disabled={isRecording}>
-            <img src={stopRecord} alt="Start Recording" />
-          </button>
-        )}
+      {isRecording ? (
+        <button onClick={stopRecording} disabled={!isRecording}>
+          <img src={recording} alt="Stop Recording" />
+        </button>
+      ) : (
+        <button onClick={startRecording} disabled={isRecording}>
+          <img src={stopRecord} alt="Start Recording" />
+        </button>
+      )}
       </div>
     </div>
   );

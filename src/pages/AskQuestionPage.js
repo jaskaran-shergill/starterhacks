@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import "./AskQuestionPage.css";
 import { OpenAI } from "openai";
@@ -14,7 +14,8 @@ function AskQuestionPage() {
     setAnswer,
     loading,
     setLoading,
-    educationLevel
+    educationLevel,
+    gradeLevel
   } = useContext(AppContext);
 
   const handleAskQuestion = async () => {
@@ -33,15 +34,20 @@ function AskQuestionPage() {
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "You are a helpful assistant." },
-          { role: "system", content: `The user is in ${educationLevel} level.` },
+          {
+            role: "system",
+            content: `The user is in ${educationLevel} level and grade ${gradeLevel}.`
+          },
           {
             role: "user",
             content: `Context: ${concatenatedText}\nQuestion: ${question}\nAnswer:`,
           },
         ],
       });
-      const response = completion.choices[0].message.content;
-      setAnswer(response);
+      const questions = completion.choices[0].message.content
+        .split("\n")
+        .filter(Boolean);
+      setAnswer(questions);
     } finally {
       setLoading(false);
     }
@@ -50,8 +56,8 @@ function AskQuestionPage() {
   return (
     <div className="questionContainer">
       <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
-      <h1 className="askTitle">ask a question</h1>
-      <h5 className="askSubtitle">get any question about your notes answered instantly</h5>
+      <h1 className="askTitle">Ask a question</h1>
+      <h5 className="askSubtitle">Get any question about your notes answered instantly</h5>
       <div>
         <input
           type="text"

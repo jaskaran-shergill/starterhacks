@@ -16,7 +16,8 @@ function QuizPage() {
     setUserAnswers,
     loading,
     setLoading,
-    educationLevel
+    educationLevel,
+    gradeLevel
   } = useContext(AppContext);
 
   const [selectedAnswers, setSelectedAnswers] = useState([]);
@@ -43,7 +44,7 @@ function QuizPage() {
         model: 'gpt-3.5-turbo',
         messages: [
           { role: 'system', content: 'You are a helpful assistant.' },
-          { role: 'system', content: `The user is in ${educationLevel} level.` },
+          { role: 'system', content: `The user is in ${educationLevel} level and grade ${gradeLevel}.` },
           {
             role: 'user',
             content: `Generate 10 quiz questions with multiple choice answers based on the following context:\n\nContext:\n${concatenatedText}\n\nProvide the questions and answers in the following format:\n\nQuestion: <question text>\nA) <choice 1>\nB) <choice 2>\nC) <choice 3>\nD) <choice 4>\nCorrect answer: <correct choice letter and text>\n\n`,

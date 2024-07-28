@@ -3,72 +3,108 @@
 .tutorContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  padding-top: 100px; /* 100px from the top */
-  box-sizing: border-box;
+  align-items: center;
+  margin: 100px 20px 20px 20px;
+  height: calc(100vh - 120px);
+}
+
+.logo {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.tutorTitle {
+  font-size: 2.5rem;
+  margin: 10px 0;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .messagesContainer {
-  flex-grow: 1;
+  flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
 }
 
 .message {
-  margin: 10px;
-  padding: 10px;
+  margin: 10px 0;
+  padding: 10px 15px;
   border-radius: 10px;
-  max-width: 70%;
-  word-wrap: break-word;
+  display: inline-block;
+  max-width: 60%; /* Limit the maximum width of the messages */
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  word-wrap: break-word; /* Ensure long words break to the next line */
 }
 
 .message.user {
-  align-self: flex-end;
   background-color: #007bff;
   color: white;
+  align-self: flex-end;
+  margin-left: auto; /* Align sent messages to the right */
 }
 
 .message.assistant {
-  align-self: flex-start;
-  background-color: #f1f1f1;
+  background-color: #f0f0f0;
   color: black;
+  align-self: flex-start;
+  margin-right: auto; /* Align received messages to the left */
 }
 
 .inputContainer {
   display: flex;
-  padding: 20px;
-  border-top: 1px solid #ddd;
-  background-color: #fff;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .inputField {
-  flex-grow: 1;
+  flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 24px;
+  border-radius: 10px;
   font-family: "Poppins", sans-serif;
-  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  margin-right: 10px;
 }
 
 .sendButton {
   padding: 10px 20px;
-  margin-left: 10px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 24px;
   cursor: pointer;
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
   transition: background-color 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sendButton:hover {
+  background-color: #0056b3;
 }
 
 .sendButton:disabled {
-  background-color: #ccc;
-}
-
-.sendButton:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #e0e0e0;
+  cursor: not-allowed;
 }

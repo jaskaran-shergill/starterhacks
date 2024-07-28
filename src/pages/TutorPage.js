@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
-import { OpenAI } from 'openai';
 import './TutorPage.css';
+import { OpenAI } from 'openai';
 import { useNavigate } from 'react-router-dom';
 
 function TutorPage() {
@@ -10,12 +10,6 @@ function TutorPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!educationLevel || !gradeLevel) {
-      navigate('/choice');
-    }
-  }, [educationLevel, gradeLevel, navigate]);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -35,7 +29,7 @@ function TutorPage() {
       dangerouslyAllowBrowser: true,
     });
 
-    const concatenatedText = extractedText.join('\n');
+    const concatenatedText = extractedText.join("\n");
 
     try {
       const completion = await openai.chat.completions.create({
@@ -43,7 +37,8 @@ function TutorPage() {
         messages: [
           { role: 'system', content: 'You are a helpful assistant.' },
           { role: 'system', content: `Context: ${concatenatedText}` },
-          { role: 'system', content: `The user is in ${educationLevel} level and grade ${gradeLevel}.` },
+          { role: 'system', content: `The user is in ${educationLevel} level and grade ${gradeLevel}.`
+        },
           ...newMessages,
         ],
       });
@@ -63,30 +58,34 @@ function TutorPage() {
 
   return (
     <div className="tutorContainer">
-      <div className="messagesContainer">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.role}`}>
-            {msg.content}
-          </div>
-        ))}
-      </div>
-      <div className="inputContainer">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              handleSendMessage();
-            }
-          }}
-          placeholder="Type your message..."
-          disabled={loading}
-          className="inputField"
-        />
-        <button onClick={handleSendMessage} disabled={loading || !input.trim()} className="sendButton">
-          {loading ? 'Sending...' : 'Send'}
-        </button>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className="tutorTitle">Tutor</h1>
+      <div className="chatContainer">
+        <div className="messagesContainer">
+          {messages.map((msg, index) => (
+            <div key={index} className={`message ${msg.role}`}>
+              {msg.content}
+            </div>
+          ))}
+        </div>
+        <div className="inputContainer">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSendMessage();
+              }
+            }}
+            placeholder="Type your message..."
+            disabled={loading}
+            className="inputField"
+          />
+          <button onClick={handleSendMessage} disabled={loading || !input.trim()} className="sendButton">
+            {loading ? 'Sending...' : 'Send'}
+          </button>
+        </div>
       </div>
     </div>
   );

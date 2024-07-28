@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function FlashcardPage() {
   const navigate = useNavigate();
-  const { extractedText } = useContext(AppContext);
+  const { extractedText, educationLevel, gradeLevel } = useContext(AppContext);
   const [flashcards, setFlashcards] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
@@ -17,7 +17,7 @@ function FlashcardPage() {
   }, [extractedText]);
 
   const generateFlashcards = async () => {
-    if (!extractedText.length || !process.env.REACT_APP_OPENAI_API_KEY) return;
+    if (!extractedText.length || !educationLevel || !gradeLevel) return;
     setLoading(true);
 
     const openai = new OpenAI({
@@ -32,6 +32,7 @@ function FlashcardPage() {
         model: 'gpt-3.5-turbo',
         messages: [
           { role: 'system', content: 'You are a helpful assistant.' },
+          { role: 'system', content: `The user is in ${educationLevel} level and grade ${gradeLevel}.` },
           {
             role: 'user',
             content: `Create 20 flashcards based on the following context:\n\nContext:\n${concatenatedText}\n\nEach flashcard should have a question and answer. Format:\n\nQuestion: <question>\nAnswer: <answer>\n\n`
@@ -42,13 +43,16 @@ function FlashcardPage() {
       const rawFlashcards = completion.choices[0].message.content.split('\n\n').filter(Boolean);
 
       const parsedFlashcards = rawFlashcards.map((fc) => {
-        const parts = fc.split('\n').filter(Boolean);
-        const question = parts[0].split('Question: ')[1]?.trim();
-        const answer = parts[1].split('Answer: ')[1]?.trim();
+        const questionMatch = fc.match(/Question: (.+)/);
+        const answerMatch = fc.match(/Answer: (.+)/);
+        const question = questionMatch ? questionMatch[1].trim() : '';
+        const answer = answerMatch ? answerMatch[1].trim() : '';
         return { question, answer };
-      });
+      }).filter(fc => fc.question && fc.answer);
 
       setFlashcards(parsedFlashcards);
+      setCurrentIndex(0);
+      setFlipped(false);
     } catch (error) {
       console.error('Error generating flashcards:', error);
     } finally {

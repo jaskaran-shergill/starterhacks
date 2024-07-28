@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import { FaQuestionCircle, FaGraduationCap, FaClipboardList, FaChalkboardTeacher, FaBook } from 'react-icons/fa';
@@ -6,14 +6,19 @@ import './QuestionChoicePage.css';
 
 function QuestionChoicePage() {
   const navigate = useNavigate();
-  const { setEducationLevel } = useContext(AppContext);
-  const [selectedLevel, setSelectedLevel] = useState('');
-  const [selectedGrade, setSelectedGrade] = useState('');
+  const { educationLevel, gradeLevel, setEducationAndGradeLevel } = useContext(AppContext);
+  const [selectedLevel, setSelectedLevel] = useState(educationLevel);
+  const [selectedGrade, setSelectedGrade] = useState(gradeLevel);
+
+  useEffect(() => {
+    if (educationLevel) setSelectedLevel(educationLevel);
+    if (gradeLevel) setSelectedGrade(gradeLevel);
+  }, [educationLevel, gradeLevel]);
 
   const handleEducationLevelChange = (event) => {
     const level = event.target.value;
     setSelectedLevel(level);
-    setEducationLevel(level);
+    setSelectedGrade(''); // Reset grade level when changing education level
   };
 
   const handleGradeLevelChange = (event) => {
@@ -21,28 +26,37 @@ function QuestionChoicePage() {
     setSelectedGrade(grade);
   };
 
+  const handleNavigate = (path) => {
+    if (selectedLevel && selectedGrade) {
+      setEducationAndGradeLevel(selectedLevel, selectedGrade);
+      navigate(path);
+    } else {
+      alert('Please select your education level and grade level before proceeding.');
+    }
+  };
+
   return (
     <div className='optionsContainer'>
       <h1 className="logo" onClick={() => navigate('/')}>Sprout</h1>
       <h1 className='optionsTitle'>What would you like to do today?</h1>
       <div className='gridContainer'>
-        <div className="gridItem" onClick={() => navigate('/ask-question')}>
+        <div className="gridItem" onClick={() => handleNavigate('/ask-question')}>
           <FaQuestionCircle size={50} />
           Ask a Question
         </div>
-        <div className="gridItem" onClick={() => navigate('/test')}>
+        <div className="gridItem" onClick={() => handleNavigate('/test')}>
           <FaGraduationCap size={50} />
           Test Your Knowledge
         </div>
-        <div className="gridItem" onClick={() => navigate('/quiz')}>
+        <div className="gridItem" onClick={() => handleNavigate('/quiz')}>
           <FaClipboardList size={50} />
           Quiz
         </div>
-        <div className="gridItem" onClick={() => navigate('/flashcards')}>
+        <div className="gridItem" onClick={() => handleNavigate('/flashcards')}>
           <FaBook size={50} />
           Flashcards
         </div>
-        <div className="gridItem" onClick={() => navigate('/tutor')}>
+        <div className="gridItem" onClick={() => handleNavigate('/tutor')}>
           <FaChalkboardTeacher size={50} />
           Tutor
         </div>
