@@ -1,0 +1,74 @@
+/* src/pages/TutorPage.css */
+
+.tutorContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-top: 100px; /* 100px from the top */
+  box-sizing: border-box;
+}
+
+.messagesContainer {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.message.user {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+}
+
+.message.assistant {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.inputContainer {
+  display: flex;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.inputField {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+
+.sendButton {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.sendButton:disabled {
+  background-color: #ccc;
+}
+
+.sendButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}

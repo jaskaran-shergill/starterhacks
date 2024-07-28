@@ -9,6 +9,8 @@ import AskQuestionPage from './pages/AskQuestionPage';
 import TestKnowledgePage from './pages/TestKnowledgePage';
 import QuizPage from './pages/QuizPage';
 import QuizResultsPage from './pages/QuizResultsPage';
+import FlashcardPage from './pages/FlashcardPage';
+import TutorPage from './pages/TutorPage';
 import './App.css';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
           <Route path="/ask-question" element={<AskQuestionPage />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/quiz-results" element={<QuizResultsPage />} />
+          <Route path="/flashcards" element={<FlashcardPage />} />
+          <Route path="/tutor" element={<TutorPage />} /> 
         </Routes>
       </Router>
     </AppProvider>

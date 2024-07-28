@@ -16,6 +16,7 @@ function QuizPage() {
     setUserAnswers,
     loading,
     setLoading,
+    educationLevel
   } = useContext(AppContext);
 
   const [selectedAnswers, setSelectedAnswers] = useState([]);
@@ -42,6 +43,7 @@ function QuizPage() {
         model: 'gpt-3.5-turbo',
         messages: [
           { role: 'system', content: 'You are a helpful assistant.' },
+          { role: 'system', content: `The user is in ${educationLevel} level.` },
           {
             role: 'user',
             content: `Generate 10 quiz questions with multiple choice answers based on the following context:\n\nContext:\n${concatenatedText}\n\nProvide the questions and answers in the following format:\n\nQuestion: <question text>\nA) <choice 1>\nB) <choice 2>\nC) <choice 3>\nD) <choice 4>\nCorrect answer: <correct choice letter and text>\n\n`,
@@ -49,7 +51,7 @@ function QuizPage() {
         ],
       });
 
-      const rawQuestions = completion.choices[0].message.content.split('\n\n').filter(Boolean);
+      const rawQuestions = completion.choices[0]?.message?.content?.split('\n\n').filter(Boolean) || [];
 
       const parsedQuestions = rawQuestions.map((q) => {
         const lines = q.split('\n');
@@ -96,7 +98,7 @@ function QuizPage() {
   };
 
   if (loading) {
-    return <div>Loading, please wait...</div>;
+    return <div className="loading">Loading, please wait...</div>;
   }
 
   if (quizQuestions.length === 0) {
@@ -106,7 +108,7 @@ function QuizPage() {
   return (
     <div className='quizContainer'>
       <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
-      <div className='quizContent'>
+      <div className='quizContentWrapper'>
         <div className='quizSidebar'>
           {quizQuestions.map((_, index) => (
             <a
@@ -118,24 +120,26 @@ function QuizPage() {
             </a>
           ))}
         </div>
-        <div className='quizQuestions'>
-          {quizQuestions.map((question, index) => (
-            <div key={index} id={`question-${index}`} className='quizQuestionContainer'>
-              <h2 className='quizQuestion'>Question {index + 1} (1 point)</h2>
-              <p className='quizQuestionText'>{question.question}</p>
-              <div className='quizChoices'>
-                {question.choices.map((choice, choiceIndex) => (
-                  <button
-                    key={choiceIndex}
-                    onClick={() => handleAnswerSelection(choice, index)}
-                    className={`quizChoice ${selectedAnswers[index] === choice ? 'selected' : ''}`}
-                  >
-                    {choice}
-                  </button>
-                ))}
+        <div className='quizContent'>
+          <div className='quizQuestions'>
+            {quizQuestions.map((question, index) => (
+              <div key={index} id={`question-${index}`} className='quizQuestionContainer'>
+                <h2 className='quizQuestion'>Question {index + 1} (1 point)</h2>
+                <p className='quizQuestionText'>{question.question}</p>
+                <div className='quizChoices'>
+                  {question.choices.map((choice, choiceIndex) => (
+                    <button
+                      key={choiceIndex}
+                      onClick={() => handleAnswerSelection(choice, index)}
+                      className={`quizChoice ${selectedAnswers[index] === choice ? 'selected' : ''}`}
+                    >
+                      {choice}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       <div className='quizNavigation'>

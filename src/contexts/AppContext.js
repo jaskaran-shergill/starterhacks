@@ -1,5 +1,3 @@
-// src/contexts/AppContext.js
-
 import React, { createContext, useState } from 'react';
 
 const AppContext = createContext();
@@ -15,10 +13,10 @@ const AppProvider = ({ children }) => {
   const [recordedAudio, setRecordedAudio] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [loading, setLoading] = useState(false);
-  
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [quizAnswers, setQuizAnswers] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
+  const [educationLevel, setEducationLevel] = useState(''); // New state for education level
 
   const contextValue = {
     selectedFile, setSelectedFile,
@@ -34,6 +32,7 @@ const AppProvider = ({ children }) => {
     quizQuestions, setQuizQuestions,
     quizAnswers, setQuizAnswers,
     userAnswers, setUserAnswers,
+    educationLevel, setEducationLevel, // Include the new state in context
   };
 
   return (

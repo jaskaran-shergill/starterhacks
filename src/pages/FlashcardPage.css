@@ -1,0 +1,137 @@
+/* src/pages/FlashcardPage.css */
+
+.flashcardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px 20px 20px 20px; /* Added margin from top */
+  height: calc(100vh - 120px); /* Adjust height considering the top margin */
+}
+
+.logo {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.flashcardTitle {
+  font-size: 2.5rem;
+  margin: 10px 0;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.flashcard {
+  perspective: 1000px;
+  width: 60%;
+  height: 50vh;
+  margin: 20px 0;
+}
+
+.flashcardContent {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.flashcardContent.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcardFront, .flashcardBack {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.flashcardFront {
+  background-color: #fff;
+}
+
+.flashcardBack {
+  background-color: #f0f0f0;
+  transform: rotateY(180deg);
+}
+
+.flashcardButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px; /* Added margin to create space between flashcard and buttons */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: rgb(45, 43, 43);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+button:hover {
+  background-color: #1c1a1a;
+}
+
+button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.resetButton {
+  margin-top: 10px; /* Added margin to create space between the reset button and other buttons */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.resetButton:hover {
+  background-color: #0056b3;
+}
+
+.resetButton:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.loading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: grey;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
