@@ -86,7 +86,7 @@ function FlashcardPage() {
 
   return (
     <div className="flashcardContainer">
-      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Back</h1>
       <h1 className="flashcardTitle">Flashcards</h1>
       <div className="flashcard">
         <div className={`flashcardContent ${flipped ? 'flipped' : ''}`} onClick={handleFlip}>

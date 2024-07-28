@@ -197,7 +197,7 @@ function TestKnowledgePage() {
   return (
     <div className='testContainer'>
       <div className='leftContainer'>
-      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Back</h1>
       <h1 className='testTitle'>Test Your Knowledge</h1>
       <h5 className='testSubtitle'>record yourself answering these questions and receive feedback</h5>
       {generatedQuestions.length > 0 && (

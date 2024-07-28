@@ -55,7 +55,7 @@ function AskQuestionPage() {
 
   return (
     <div className="questionContainer">
-      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Back</h1>
       <h1 className="askTitle">Ask a question</h1>
       <h5 className="askSubtitle">Get any question about your notes answered instantly</h5>
       <div>

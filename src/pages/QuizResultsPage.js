@@ -31,7 +31,7 @@ function QuizResultsPage() {
 
   return (
     <div className="resultsContainer">
-      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Back</h1>
       <h1>Quiz Results</h1>
       <p className="score">Your score is {calculateScore()} out of {quizQuestions.length}</p>
       <div className="resultsDetails">

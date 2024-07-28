@@ -58,7 +58,7 @@ function TutorPage() {
 
   return (
     <div className="tutorContainer">
-      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Back</h1>
       <h1 className="tutorTitle">Tutor</h1>
       <div className="chatContainer">
         <div className="messagesContainer">

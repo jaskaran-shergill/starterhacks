@@ -108,7 +108,7 @@ function QuizPage() {
 
   return (
     <div className='quizContainer'>
-      <h1 className="logo" onClick={() => navigate('/choice')}>Sprout</h1>
+      <h1 className="logo" onClick={() => navigate('/choice')}>Back</h1>
       <div className='quizContentWrapper'>
         <div className='quizSidebar'>
           {quizQuestions.map((_, index) => (
